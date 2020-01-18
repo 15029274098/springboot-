@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.learn.seckill.dao.SecKillUserMapper">
+    <select id="selectAllUser" resultType="com.learn.seckill.domain.SecKillUser">
+        <include refid="allUser"/>
+    </select>
+    <insert id="insertUser" parameterType="com.learn.seckill.domain.SecKillUser">
+        	INSERT INTO tb_seckill_user (id,username,password,salt,login_count)
+        	                      values(#{id},#{username},#{password},#{salt},#{loginCount})
+    </insert>
+    <sql id="allUser">
+        select id,username,password,salt,head_image,register_date,last_login_date,login_count from tb_seckill_user
+    </sql>
+    <select id="selectOneUserByMobile" parameterType="string" resultType="com.learn.seckill.domain.SecKillUser">
+        <include refid="allUser"/>
+        <where>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+        </where>
+    </select>
+</mapper>
