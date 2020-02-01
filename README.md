@@ -26,4 +26,11 @@ jsr参数校验
 分布式session解决方案
 day03
 秒杀功能的实现
+day05
+1.解决超卖问题，每次更新存库的时候判断是否大于0
+2.防止用户多买，用user_id,goods_id 成唯一索引，保证一个用户只能被秒杀一次
+3. ./redis-benchmark -h 127.0.0.1 -p 6382 -c 100 -n 100000
+-c 100 个并发
+-n 100000个请求
+4../redis-benchmark -t set,get -n 100000 -q
  
