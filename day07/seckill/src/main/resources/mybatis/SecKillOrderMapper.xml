@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.learn.seckill.dao.SecKillOrderMapper">
+    <sql id="secKillOrder">select id,user_id,goods_id,order_id FROM tb_seckill_order   </sql>
+    <sql id="orderInfo">select id,user_id,goods_id,delivery_addr_id,goods_name,goods_count,goods_count,goods_price,order_channel,staus,create_date,pay_date from tb_order_info</sql>
+    <select id="getSeckillOrderByUseIdGoodsId" parameterType="long" resultType="com.learn.seckill.domain.SeckillOrder">
+    <include refid="secKillOrder"/>
+    <where>
+        <if test="userId != null and userId != ''">
+            and user_id=#{userId}
+        </if>
+        <if test="goodsId != null and goodsId != ''">
+            and goods_id=#{goodsId}
+        </if>
+    </where>
+    </select>
+    <insert id="insertSecKillOrder" parameterType="com.learn.seckill.domain.SeckillOrder">
+        insert into tb_seckill_order(id,user_id,goods_id,order_id) values(#{id},#{userId},#{goodsId},#{orderId})
+    </insert>
+    <insert id="insertOrderInfo" parameterType="com.learn.seckill.domain.OrderInfo">
+        insert into tb_order_info(id,user_id,goods_id,delivery_addr_id,goods_name,goods_count,goods_price,order_channel,status,create_date) values
+          (#{id},#{userId},#{goodsId},#{deliveryAddrId},#{goodsName},#{goodsCount},#{goodsPrice},#{orderChannel},#{status},#{createDate})
+    </insert>
+    <select id="getOrderInfoByUseIdGoodsId" resultType="com.learn.seckill.domain.OrderInfo" parameterType="long">
+        <include refid="orderInfo"/>
+        <where>
+            <if test="userId != null and userId != ''">
+               and  user_id=#{userId}
+            </if>
+            <if test="goodsId != null and goodsId != ''">
+              and  goods_id=#{goodsId}
+            </if>
+        </where>
+    </select>
+    <select id="getOrderByOrderId" parameterType="long" resultType="com.learn.seckill.domain.OrderInfo">
+        select id,user_id,goods_id,delivery_addr_id,goods_name,goods_count,goods_price,order_channel,status,create_date,pay_date from tb_order_info where id = #{orderId}
+    </select>
+</mapper>
